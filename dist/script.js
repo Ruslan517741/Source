@@ -14014,6 +14014,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_tabs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/tabs */ "./src/js/modules/tabs.js");
 /* harmony import */ var _modules_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/forms */ "./src/js/modules/forms.js");
 /* harmony import */ var _modules_changeModalState__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/changeModalState */ "./src/js/modules/changeModalState.js");
+/* harmony import */ var _modules_timer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/timer */ "./src/js/modules/timer.js");
+/* harmony import */ var _modules_images__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/images */ "./src/js/modules/images.js");
+
+
 
 
 
@@ -14023,21 +14027,24 @@ window.addEventListener('DOMContentLoaded', () => {
   "use strict";
 
   let modalState = {};
+  let deadline = '2022-01-01';
   Object(_modules_changeModalState__WEBPACK_IMPORTED_MODULE_4__["default"])(modalState);
   Object(_modules_modals__WEBPACK_IMPORTED_MODULE_1__["default"])();
   Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_2__["default"])('.glazing_slider div', '.glazing a', '.glazing_content', 'active');
   Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_2__["default"])('.decoration_item', '.no_click', '.decoration_content > div > div', 'after_click');
   Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_2__["default"])('.balcon_icons > span', '.balcon_icons_img ', '.big_img > img', 'do_image_more', 'inline-block');
   Object(_modules_forms__WEBPACK_IMPORTED_MODULE_3__["default"])(modalState);
-  let q = {
-    one: 1,
-    onqe: 1,
-    onqee: 1
+  Object(_modules_timer__WEBPACK_IMPORTED_MODULE_5__["default"])('.container1', deadline);
+  Object(_modules_images__WEBPACK_IMPORTED_MODULE_6__["default"])();
+  /* let q = {
+      one: 1,
+      onqe: 1,
+      onqee: 1
   };
   const newObj = {};
-  q = { ...newObj
-  };
-  console.log(q);
+  
+  q = {...newObj};
+   */
 });
 
 /***/ }),
@@ -14062,16 +14069,16 @@ const changeModalState = state => {
         windowProfile = document.querySelectorAll('.checkbox');
   Object(_checkNamInputs__WEBPACK_IMPORTED_MODULE_0__["default"])('#width');
   Object(_checkNamInputs__WEBPACK_IMPORTED_MODULE_0__["default"])('#height');
-
-  function ckeckInput(a, b) {
-    if (a.value !== '') {
-      a.style.border = "none";
-      state[b] = a.value;
-    } else {
-      a.style.border = "1px solid red";
-      ckeckInput(a);
-    }
-  }
+  /*     function ckeckInput(a, b) {
+          if (a.value !== ''){
+              a.style.border = "none";
+              state[b] = a.value;
+              clearInterval(checkInterval);
+          } else {
+              a.style.border = "1px solid red";
+              
+          }
+      } */
 
   function bindActionToElems(event, elem, prop) {
     elem.forEach((item, i) => {
@@ -14092,8 +14099,10 @@ const changeModalState = state => {
                 }
               });
             } else {
-              ckeckInput(item, prop);
-              console.log(1);
+              /* const checkInterval = setInterval(ckeckInput(item, prop), 10); */
+
+              /* ckeckInput(item, prop); */
+              state[prop] = item.value;
             }
 
             break;
@@ -14222,6 +14231,64 @@ const forms = state => {
 
 /***/ }),
 
+/***/ "./src/js/modules/images.js":
+/*!**********************************!*\
+  !*** ./src/js/modules/images.js ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const images = () => {
+  const mainClass = document.querySelector('.works'),
+        image = mainClass.querySelectorAll('.preview'),
+        links = mainClass.querySelectorAll('a');
+  /*     function linkDefault() {
+          links.forEach(link => {
+              link.addEventListener('click', (e) => {
+                  e.preventDefault();
+              });
+          });
+      } 
+      linkDefault(); */
+
+  image.forEach((img, i) => {
+    img.addEventListener('click', e => {
+      e.preventDefault();
+      let elem = document.createElement('div'),
+          newImg = document.createElement('img'),
+          atribute = links[i].getAttribute('href');
+      elem.classList.add('popup');
+      mainClass.appendChild(elem);
+      elem.appendChild(newImg);
+      elem.style.display = "flex";
+      elem.style.justifyContent = 'center';
+      elem.style.alignItems = 'center';
+      newImg.src = `${atribute}`;
+      newImg.alt = 'img';
+      newImg.style.maxWidth = '60%';
+      newImg.style.maxHeight = '80%';
+      const close = mainClass.querySelector('.popup');
+      close.addEventListener('click', e => {
+        if (e.target === close) {
+          elem.remove();
+          console.log(1);
+        }
+
+        console.log(close);
+      });
+    });
+    /*             if (e.target === close) {
+                    elem.remove();
+                } */
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (images);
+
+/***/ }),
+
 /***/ "./src/js/modules/modals.js":
 /*!**********************************!*\
   !*** ./src/js/modules/modals.js ***!
@@ -14236,7 +14303,8 @@ const modals = () => {
     const trigger = document.querySelectorAll(triggerSelector),
           modal = document.querySelector(modalSelector),
           close = modal.querySelector(closeSelector),
-          windows = document.querySelectorAll('[data-modal]');
+          windows = document.querySelectorAll('[data-modal]'),
+          scroll = calcScroll();
     trigger.forEach(btn => {
       btn.addEventListener('click', () => {
         windows.forEach(item => {
@@ -14244,6 +14312,7 @@ const modals = () => {
         });
         modal.style.display = 'block';
         document.body.style.overflow = 'hidden';
+        document.body.style.marginRight = `${scroll}px`;
         /* document.body.classList.add('modal-open'); */
       });
     });
@@ -14253,6 +14322,7 @@ const modals = () => {
       });
       modal.style.display = 'none';
       document.body.style.overflow = '';
+      document.body.style.marginRight = `0px`;
       /* document.body.classList.remove('modal-open'); */
     });
     modal.addEventListener('click', e => {
@@ -14262,6 +14332,7 @@ const modals = () => {
         });
         modal.style.display = 'none';
         document.body.style.overflow = '';
+        document.body.style.marginRight = `0px`;
         /* document.body.classList.remove('modal-open'); */
       }
     });
@@ -14272,6 +14343,17 @@ const modals = () => {
       document.querySelector(selector).style.display = 'block';
       document.body.style.overflow = 'hidden';
     }, time);
+  }
+
+  function calcScroll() {
+    let div = document.createElement('div');
+    div.style.width = '50px';
+    div.style.height = '50px';
+    div.style.overflowY = 'scroll';
+    div.style.visibility = 'hidden';
+    document.body.appendChild(div);
+    let scrollWidth = div.offsetWidth - div.clientWidth;
+    return scrollWidth;
   }
 
   bindModal('.popup_engineer_btn', '.popup_engineer', '.popup_close');
@@ -14366,6 +14448,72 @@ const tabs = (blockNamesSelector, buttonSelector, contentSelector, activeClass, 
 };
 
 export default tabs; */
+
+/***/ }),
+
+/***/ "./src/js/modules/timer.js":
+/*!*********************************!*\
+  !*** ./src/js/modules/timer.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const timer = (selector, deadline) => {
+  const getTimeRemaining = endtime => {
+    const t = Date.parse(endtime) - Date.parse(new Date()),
+          days = Math.floor(t / (1000 * 60 * 60 * 24)),
+          hours = Math.floor(t / (1000 * 60 * 60) % 24),
+          minutes = Math.floor(t / 1000 / 60 % 60),
+          seconds = Math.floor(t / 1000 % 60);
+    return {
+      'total': t,
+      'days': days,
+      'hours': hours,
+      'minutes': minutes,
+      'seconds': seconds
+    };
+  };
+
+  function getZero(num) {
+    if (num <= 9) {
+      return `0${num}`;
+    } else {
+      return num;
+    }
+  }
+
+  function setClock(selector, endtime) {
+    const timer = document.querySelector(selector),
+          days = timer.querySelector('#days'),
+          hours = timer.querySelector('#hours'),
+          minutes = timer.querySelector('#minutes'),
+          seconds = timer.querySelector('#seconds'),
+          timeInterval = setInterval(updateClock, 1000);
+    updateClock();
+
+    function updateClock() {
+      const t = getTimeRemaining(endtime);
+      days.innerHTML = getZero(t.days);
+      hours.innerHTML = getZero(t.hours);
+      minutes.innerHTML = getZero(t.minutes);
+      seconds.innerHTML = getZero(t.seconds);
+
+      if (t.total <= 0) {
+        days.textContent = "00";
+        hours.textContent = "00";
+        minutes.textContent = "00";
+        seconds.textContent = "00";
+        clearInterval(timeInterval);
+      }
+    }
+  }
+
+  setClock(selector, deadline);
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (timer);
 
 /***/ }),
 
