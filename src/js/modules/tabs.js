@@ -26,7 +26,6 @@ const tabs = (blockNamesSelector, buttonSelector, contentSelector, activeClass, 
             showTabContent(i);
         });
     });
-    console.log(blockNames);
 };
 
 export default tabs;

@@ -1,16 +1,10 @@
+import {calcScroll} from './modals';
+
 const images = () => {
     const mainClass = document.querySelector('.works'),
           image = mainClass.querySelectorAll('.preview'),
-          links = mainClass.querySelectorAll('a'); 
-
-/*     function linkDefault() {
-        links.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-            });
-        });
-    } 
-    linkDefault(); */
+          links = mainClass.querySelectorAll('a'),
+          scroll = calcScroll(); 
     
     image.forEach((img, i) => {
         img.addEventListener('click', (e) => {
@@ -20,6 +14,7 @@ const images = () => {
             atribute = links[i].getAttribute('href');
 
             elem.classList.add('popup');
+            elem.classList.add('faded');
             mainClass.appendChild(elem);
             elem.appendChild(newImg);
             
@@ -30,25 +25,17 @@ const images = () => {
             newImg.alt = 'img';
             newImg.style.maxWidth = '60%';
             newImg.style.maxHeight = '80%';
+            document.body.style.overflow = 'hidden';
+            document.body.style.marginRight = `${scroll}px`;
             const close = mainClass.querySelector('.popup'); 
             close.addEventListener('click', (e) => {
                 if (e.target === close) {
                     elem.remove();
-                    console.log(1);
+                    document.body.style.overflow = '';
+                    document.body.style.marginRight = `0px`;
                 }
-                console.log(close);
             });
-            
         });
-        
-/*             if (e.target === close) {
-                elem.remove();
-            } */
-        
     });
-
-    
-
 };
-
 export default images;
