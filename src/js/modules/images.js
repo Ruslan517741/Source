@@ -34,7 +34,6 @@ const images = () => {
             close.addEventListener('click', (e) => {
                 if (e.target === close) {
                     elem.remove();
-                    console.log(1);
                 }
                 console.log(close);
             });
