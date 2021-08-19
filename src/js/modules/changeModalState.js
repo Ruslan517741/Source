@@ -10,17 +10,6 @@ const changeModalState = (state) => {
     checkNamInputs('#width');
     checkNamInputs('#height');
 
-/*     function ckeckInput(a, b) {
-        if (a.value !== ''){
-            a.style.border = "none";
-            state[b] = a.value;
-            clearInterval(checkInterval);
-        } else {
-            a.style.border = "1px solid red";
-            
-        }
-    } */
-
     function bindActionToElems (event, elem, prop) {
         elem.forEach((item, i) => {
             item.addEventListener(event, () => {
@@ -38,8 +27,6 @@ const changeModalState = (state) => {
                                 } 
                             });
                         } else {
-                            /* const checkInterval = setInterval(ckeckInput(item, prop), 10); */
-                            /* ckeckInput(item, prop); */
                             state[prop] = item.value;
                         }
                         break;
