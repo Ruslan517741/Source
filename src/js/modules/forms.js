@@ -60,9 +60,9 @@ const forms = (state) => {
                         statusMessage.remove();
                     }, 5000);
                 });
-            if (item.getAttribute('data-calc') === "end") {
+            /* if (item.getAttribute('data-calc') === "end") {
                 document.querySelector('.popup_calc_end').style.display = "none";
-            }
+            } */
         });
     });
 
